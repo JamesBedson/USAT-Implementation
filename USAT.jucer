@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="VGD34c" name="USAT" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginName="USAT Designer"
+              companyName="James_UPF">
   <MAINGROUP id="eTEwYW" name="USAT">
     <GROUP id="{75454686-D724-A001-9E08-39DABE220BEF}" name="Source">
+      <FILE id="tkxXQe" name="SpeakerManager.cpp" compile="1" resource="0"
+            file="Source/SpeakerManager.cpp"/>
+      <FILE id="X1E6eG" name="SpeakerManager.h" compile="0" resource="0"
+            file="Source/SpeakerManager.h"/>
+      <FILE id="ltLpFh" name="ParameterParser.cpp" compile="1" resource="0"
+            file="Source/ParameterParser.cpp"/>
+      <FILE id="GF6Dcu" name="ParameterParser.h" compile="0" resource="0"
+            file="Source/ParameterParser.h"/>
+      <FILE id="FviHkd" name="StateManager.cpp" compile="1" resource="0"
+            file="Source/StateManager.cpp"/>
+      <FILE id="ETkKAE" name="StateManager.h" compile="0" resource="0" file="Source/StateManager.h"/>
+      <FILE id="BuSR7P" name="ProcessingConstants.h" compile="0" resource="0"
+            file="Source/ProcessingConstants.h"/>
+      <FILE id="cjus4y" name="ParameterDefinitions.h" compile="0" resource="0"
+            file="Source/ParameterDefinitions.h"/>
+      <FILE id="NKLt9m" name="USAT.cpp" compile="1" resource="0" file="Source/USAT.cpp"/>
+      <FILE id="nGSQt3" name="USAT.h" compile="0" resource="0" file="Source/USAT.h"/>
       <FILE id="Lwsx9C" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="DiCCZE" name="PluginProcessor.h" compile="0" resource="0"

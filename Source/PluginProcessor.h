@@ -9,13 +9,20 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "ProcessingConstants.h"
+#include "USAT.h"
+#include "StateManager.h"
+#include "ParameterParser.h"
+
 
 //==============================================================================
 /**
 */
+
 class USATAudioProcessor  : public juce::AudioProcessor
 {
 public:
+    using APVTS = juce::AudioProcessorValueTreeState;
     //==============================================================================
     USATAudioProcessor();
     ~USATAudioProcessor() override;
@@ -56,4 +63,12 @@ public:
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (USATAudioProcessor)
+    USAT                decoder;
+    APVTS               staticParameters;
+    StateManager        stateManager;
+    ParameterParser     parameterParser;
+    SpeakerManager      speakerManager;
+    
+    void decode();
+    
 };
