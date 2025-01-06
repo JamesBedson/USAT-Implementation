@@ -91,7 +91,7 @@ void USAT::computeMatrix(const std::string& parameters) const
 {
     // Call python script with parameters
     
-    auto executablePath     = StateManager::executable.getFullPathName();
+    auto executablePath     = StateManager::pythonExecutable.getFullPathName();
     auto quotedParameters   = "\"" + parameters + "\"";
     auto command            = executablePath + " " + quotedParameters;
     

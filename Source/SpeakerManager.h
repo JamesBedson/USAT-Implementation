@@ -10,15 +10,16 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "ProcessingConstants.h"
 
 class Speaker {
 
 public:
     
     enum SphericalCoordinates{
-        Azimuth = 0,
-        Elevation = 1,
-        Distance = 2
+        Azimuth     = 0,
+        Elevation   = 1,
+        Distance    = 2
     };
     
     Speaker(const float& azimuth,
@@ -29,10 +30,9 @@ public:
     
     void changeSpeakerCoordinates(const SphericalCoordinates& coordinate, const float& value);
     const float getCoordinate(const SphericalCoordinates& coordinate) const;
+    static bool isValidCoordinate(const SphericalCoordinates& coordinate, const float& value);
     
 private:
-    
-    bool isValidCoordinate(const SphericalCoordinates& coordinate, const float& value);
     
     std::array<float, 3>
         coordinates;
@@ -44,15 +44,25 @@ public:
     SpeakerManager();
     ~SpeakerManager();
     
+    
+    void generateSpeakerTree();
+    juce::ValueTree& getSpeakerTree();
+    
+    const std::vector<int> getVectorCurrentIDs() const;
+    const Speaker* getSpeaker(int speakerID) const;
+    
     void addSpeaker(std::unique_ptr<Speaker> newSpeaker, int speakerID);
     void replaceSpeaker(std::unique_ptr<Speaker> newSpeaker, int speakerID);
     void removeSpeaker(int speakerID);
-    const std::vector<int> getVectorCurrentIDs() const;
-    const Speaker* getSpeaker(int speakerID) const;
+    void modifySpeakerProperty(int speakerID,
+                               Speaker::SphericalCoordinates,
+                               const float value);
     
 private:
     
     std::unordered_map<int, std::unique_ptr<Speaker>> speakerMap;
-    unsigned int speakerCount;
+    
+    unsigned int    speakerCount;
+    juce::ValueTree speakerTree;
     
 };

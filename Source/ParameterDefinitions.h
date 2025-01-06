@@ -113,7 +113,7 @@
                                                                                ProcessingConstants::Coeffs::incrementRadialVelocity,
                                                                                ProcessingConstants::Coeffs::skewRadialVelocity
                                                                                ),
-                                                ProcessingConstants::Coeffs::defaultRadialVelocty // Typo? Should be defaultRadialVelocity
+                                                ProcessingConstants::Coeffs::defaultRadialVelocity // Typo? Should be defaultRadialVelocity
     ),
 
     // transverse velocity

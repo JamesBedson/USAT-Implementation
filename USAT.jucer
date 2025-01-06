@@ -5,17 +5,27 @@
               companyName="James_UPF">
   <MAINGROUP id="eTEwYW" name="USAT">
     <GROUP id="{75454686-D724-A001-9E08-39DABE220BEF}" name="Source">
-      <FILE id="tkxXQe" name="SpeakerManager.cpp" compile="1" resource="0"
-            file="Source/SpeakerManager.cpp"/>
-      <FILE id="X1E6eG" name="SpeakerManager.h" compile="0" resource="0"
-            file="Source/SpeakerManager.h"/>
+      <GROUP id="{FE193262-12D5-8FBB-1721-F7BE1067D01E}" name="State">
+        <FILE id="fSra6w" name="TranscodingConfigHandler.cpp" compile="1" resource="0"
+              file="Source/TranscodingConfigHandler.cpp"/>
+        <FILE id="LQqosa" name="TranscodingConfigHandler.h" compile="0" resource="0"
+              file="Source/TranscodingConfigHandler.h"/>
+        <FILE id="tkxXQe" name="SpeakerManager.cpp" compile="1" resource="0"
+              file="Source/SpeakerManager.cpp"/>
+        <FILE id="X1E6eG" name="SpeakerManager.h" compile="0" resource="0"
+              file="Source/SpeakerManager.h"/>
+        <FILE id="FviHkd" name="StateManager.cpp" compile="1" resource="0"
+              file="Source/StateManager.cpp"/>
+        <FILE id="ETkKAE" name="StateManager.h" compile="0" resource="0" file="Source/StateManager.h"/>
+        <FILE id="YAfgqE" name="PluginParameterHandler.cpp" compile="1" resource="0"
+              file="Source/PluginParameterHandler.cpp"/>
+        <FILE id="ckCB1o" name="PluginParameterHandler.h" compile="0" resource="0"
+              file="Source/PluginParameterHandler.h"/>
+      </GROUP>
       <FILE id="ltLpFh" name="ParameterParser.cpp" compile="1" resource="0"
             file="Source/ParameterParser.cpp"/>
       <FILE id="GF6Dcu" name="ParameterParser.h" compile="0" resource="0"
             file="Source/ParameterParser.h"/>
-      <FILE id="FviHkd" name="StateManager.cpp" compile="1" resource="0"
-            file="Source/StateManager.cpp"/>
-      <FILE id="ETkKAE" name="StateManager.h" compile="0" resource="0" file="Source/StateManager.h"/>
       <FILE id="BuSR7P" name="ProcessingConstants.h" compile="0" resource="0"
             file="Source/ProcessingConstants.h"/>
       <FILE id="cjus4y" name="ParameterDefinitions.h" compile="0" resource="0"

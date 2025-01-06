@@ -64,10 +64,8 @@ private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (USATAudioProcessor)
     USAT                decoder;
-    APVTS               staticParameters;
+    APVTS               userParameters;
     StateManager        stateManager;
-    ParameterParser     parameterParser;
-    SpeakerManager      speakerManager;
     
     void decode();
     

@@ -21,11 +21,10 @@ USATAudioProcessor::USATAudioProcessor()
                      #endif
                        ),
 #endif
-staticParameters(*this, nullptr, juce::Identifier("USAT Designer"),
+userParameters(*this, nullptr, juce::Identifier("USAT Designer"),
 #include "ParameterDefinitions.h"
            ),
-stateManager(speakerManager, staticParameters),
-parameterParser(staticParameters, stateManager.speakerTree)
+stateManager(userParameters)
 {
     decoder.setChannelCounts(getTotalNumInputChannels(), getTotalNumOutputChannels());
     decode();
@@ -100,7 +99,18 @@ void USATAudioProcessor::changeProgramName (int index, const juce::String& newNa
 //==============================================================================
 void USATAudioProcessor::decode()
 {
-    auto parameterArg = parameterParser.extractStaticParameters();
+    // Formats and Layouts
+    TranscodingConfigHandler&   configHandler       = stateManager.transcodingConfigHandler;
+    
+    // User Parameters and Coefficients
+    PluginParameterHandler&     parameterHandler    = stateManager.pluginParameterHandler;
+    
+    auto configArg      = ParameterParser::extractEncodingOptions(configHandler.getConfigTree(),
+                                                                  configHandler.speakerManagerInput.getSpeakerTree(),
+                                                                  configHandler.speakerManagerOutput.getSpeakerTree());
+    
+    auto parameterArg   = ParameterParser::extractCoefficients(parameterHandler.getCoefficientTree());
+    
     decoder.computeMatrix(parameterArg);
 }
 

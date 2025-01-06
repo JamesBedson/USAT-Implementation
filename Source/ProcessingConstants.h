@@ -59,8 +59,6 @@ namespace ProcessingConstants {
                 "9.1.6"
             };
         }
-    
-    
     }
     
     namespace Coeffs {
@@ -81,6 +79,22 @@ namespace ProcessingConstants {
     const juce::String  totalGainsLinear        = "totalGainsLinear";
     const juce::String  totalGainsQuadratic     = "totalGainsQuadratic";
     
+    const juce::StringArray coefficientTypes {
+        
+        energy,
+        radialIntensity,
+        transverseIntensity,
+        pressure,
+        radialVelocity,
+        transverseVelocity,
+        inPhaseQuadratic,
+        symmetryQuadratic,
+        inPhaseLinear,
+        symmetryLinear,
+        totalGainsLinear,
+        totalGainsQuadratic
+        
+    };
     
     // ================================================================
     // Values
@@ -117,7 +131,7 @@ namespace ProcessingConstants {
     // radialVelocity
     constexpr float startValRadialVelocity          {0.1f};
     constexpr float endValRadialVelocity            {10.f};
-    constexpr float defaultRadialVelocty            {5.f};
+    constexpr float defaultRadialVelocity           {5.f};
     constexpr float incrementRadialVelocity         {0.1f};
     constexpr float skewRadialVelocity              {1.f};
     
@@ -169,6 +183,23 @@ namespace ProcessingConstants {
     constexpr float defaultTotalGainsQuadratic      {5.f};
     constexpr float incrementTotalGainsQuadratic    {0.1f};
     constexpr float skewTotalGainsQuadratic         {1.f};
+    
+    
+    const std::unordered_map<juce::String, float> defaultValues
+    {
+        {energy, defaultEnergy},
+        {radialIntensity, defaultRadialIntensity},
+        {transverseIntensity, defaultTransverseIntensity},
+        {pressure, defaultPressure},
+        {radialVelocity, defaultRadialVelocity},
+        {transverseVelocity, defaultTransverseVelocity},
+        {inPhaseQuadratic, defaultInPhaseQuadratic},
+        {symmetryQuadratic, defaultInPhaseQuadratic},
+        {inPhaseLinear, defaultInPhaseLinear},
+        {symmetryLinear, defaultSymmetryLinear},
+        {totalGainsLinear, defaultTotalGainsLinear},
+        {totalGainsQuadratic, defaultTotalGainsQuadratic}
+    };
     
     }
 

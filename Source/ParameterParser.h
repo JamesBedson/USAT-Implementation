@@ -13,35 +13,36 @@
 #include "ProcessingConstants.h"
 #include "StateManager.h"
 
-using APVTS = juce::AudioProcessorValueTreeState;
 
 class ParameterParser {
     
 public:
-    ParameterParser(APVTS& apvts, juce::ValueTree& speakerTree);
-    ~ParameterParser();
+    ParameterParser();
     
-    const std::string extractStaticParameters() const;
-    const std::string extractSpeakerLayout() const;
+    static const std::string extractEncodingOptions(const juce::ValueTree& configTree,
+                                                    const juce::ValueTree& inputSpeakerTree,
+                                                    const juce::ValueTree& outputSpeakerTree);
+    
+    static const std::string extractCoefficients(const juce::ValueTree& coefficientTree);
     
 private:
-    void parseEncodingOptions(std::ostringstream& parameterData,
-                              const juce::String& encodingOption) const;
+    
+    static void parseEncodingOptions(std::ostringstream& parameterData,
+                              const juce::String& encodingOption);
+    
+    static void parseSpeakerLayout(std::ostringstream&,
+                            const juce::ValueTree& speakerTree);
     
     template <typename T>
-    void formatStaticParameterOption(std::ostringstream& parameterData,
+    static void formatUserParameterOption(std::ostringstream& parameterData,
                                    const juce::String& parameterName,
-                                   const T& value) const;
+                                   const T& value);
     
-    void formatSpeakerLayoutOption(std::ostringstream& parameterData,
+    static void formatSpeakerLayoutOption(std::ostringstream& parameterData,
                                    const int& id,
                                    const float& azimuth,
                                    const float& elevation,
-                                   const float& distance) const;
+                                   const float& distance);
     
-    
-    ProcessingConstants::PythonParameterNameMap pythonParameterMap;
-    
-    APVTS&          apvts;
-    juce::ValueTree speakerTree;
+    const ProcessingConstants::PythonParameterNameMap pythonParameterMap;
 };

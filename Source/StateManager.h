@@ -12,23 +12,24 @@
 #include <JuceHeader.h>
 #include "ProcessingConstants.h"
 #include "SpeakerManager.h"
+#include "TranscodingConfigHandler.h"
+#include "PluginParameterHandler.h"
 
 using APVTS = juce::AudioProcessorValueTreeState;
 
 class StateManager {
 
 public:
-    StateManager(SpeakerManager& speakerManager, APVTS& apvts);
+    StateManager(APVTS& apvts);
     ~StateManager();
-    static const juce::File defaultExecutableDirectory;
-    static const juce::File executable;
+    static const juce::File defaultPythonExecutableDirectory;
+    static const juce::File pythonExecutable;
     
     void setUpExecutableDirectory();
-    void generateSpeakerValueTree();
     
-    APVTS&          staticParameters;
-    SpeakerManager& speakerManager;
-    juce::ValueTree speakerTree;
+    APVTS&                      apvts;
+    PluginParameterHandler      pluginParameterHandler;
+    TranscodingConfigHandler    transcodingConfigHandler;
     
 private:
     
