@@ -24,8 +24,7 @@ const juce::File StateManager::pythonExecutable
 
 StateManager::StateManager(APVTS& apvts)
 : apvts(apvts),
-pluginParameterHandler(apvts),
-transcodingConfigHandler(apvts)
+pluginParameterHandler(apvts)
 {
     if (!defaultPythonExecutableDirectory.exists()) {
         // Create directory

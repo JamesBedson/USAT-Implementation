@@ -14,20 +14,35 @@
 //==============================================================================
 /**
 */
-class USATAudioProcessorEditor  : public juce::AudioProcessorEditor
+class RasterComponent  : public juce::Component
 {
 public:
-    USATAudioProcessorEditor (USATAudioProcessor&);
-    ~USATAudioProcessorEditor() override;
+    RasterComponent(USATAudioProcessor& p);
+    ~RasterComponent() override;
 
-    //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+    
     USATAudioProcessor& audioProcessor;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RasterComponent)
+};
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (USATAudioProcessorEditor)
+//==============================================================================
+class WrappedAudioProcessorEditor : public juce::AudioProcessorEditor
+{
+public:
+    WrappedAudioProcessorEditor(USATAudioProcessor& p);
+    ~WrappedAudioProcessorEditor() override;
+    
+    void resized() override;
+    
+private:
+    
+    RasterComponent     rasterComponent;
+    USATAudioProcessor& audioProcessor;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WrappedAudioProcessorEditor)
 };

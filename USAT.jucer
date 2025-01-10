@@ -39,6 +39,9 @@
       <FILE id="V08EvH" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="IM9YcK" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <GROUP id="{93CD12DE-13EC-0D1D-50F7-FCE85BCCF0EC}" name="UI">
+        <FILE id="Kb62wX" name="UIConstants.h" compile="0" resource="0" file="Source/UIConstants.h"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <MODULES>

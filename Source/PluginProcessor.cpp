@@ -27,7 +27,7 @@ userParameters(*this, nullptr, juce::Identifier("USAT Designer"),
 stateManager(userParameters)
 {
     decoder.setChannelCounts(getTotalNumInputChannels(), getTotalNumOutputChannels());
-    decode();
+    //decode();
 }
 
 USATAudioProcessor::~USATAudioProcessor()
@@ -170,7 +170,7 @@ bool USATAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* USATAudioProcessor::createEditor()
 {
-    return new USATAudioProcessorEditor (*this);
+    return new WrappedAudioProcessorEditor (*this);
 }
 
 //==============================================================================

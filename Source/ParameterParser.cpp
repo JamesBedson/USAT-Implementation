@@ -56,10 +56,22 @@ void ParameterParser::formatUserParameterOption(std::ostringstream& parameterDat
                                      const juce::String& parameterName,
                                      const T& value)
 {
-    parameterData   << parameterName
-                    << "="
-                    << value
-                    << ";";
+    parameterData << parameterName.toStdString() << "=";
+
+    if constexpr (std::is_arithmetic_v<T>) {
+        // For numeric types, use std::to_string
+        parameterData << std::to_string(value);
+    } else if constexpr (std::is_same_v<T, std::string>) {
+        // For std::string, directly append
+        parameterData << value;
+    } else if constexpr (std::is_same_v<T, juce::String>) {
+        // For juce::String, convert to std::string
+        parameterData << value.toStdString();
+    } else {
+        jassertfalse;
+    }
+
+    parameterData << ";";
 }
 
 void ParameterParser::parseSpeakerLayout(std::ostringstream& configData,

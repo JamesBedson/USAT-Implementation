@@ -8,24 +8,58 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "UIConstants.h"
 
+// WRAPPER
 //==============================================================================
-USATAudioProcessorEditor::USATAudioProcessorEditor (USATAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+WrappedAudioProcessorEditor::WrappedAudioProcessorEditor (USATAudioProcessor& p)
+    : juce::AudioProcessorEditor(p),
+    rasterComponent(p),
+    audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    addAndMakeVisible(rasterComponent);
+    if (auto constrainer = getConstrainer())
+    {
+        constrainer->setFixedAspectRatio(UI::SizeLimits::maximumWidth / UI::SizeLimits::maximumHeight);
+        
+        constrainer->setSizeLimits(UI::SizeLimits::minimumWidth,
+                                   UI::SizeLimits::minimumHeight,
+                                   UI::SizeLimits::maximumWidth,
+                                   UI::SizeLimits::maximumHeight
+                                   );
+    }
+    setResizable(true, true);
+    setSize (UI::SizeLimits::maximumWidth, UI::SizeLimits::maximumHeight);
 }
 
-USATAudioProcessorEditor::~USATAudioProcessorEditor()
+WrappedAudioProcessorEditor::~WrappedAudioProcessorEditor()
 {
+    
 }
 
-//==============================================================================
-void USATAudioProcessorEditor::paint (juce::Graphics& g)
+void WrappedAudioProcessorEditor::resized()
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
+    const auto scaleFactor = static_cast<float>(getWidth()) / UI::SizeLimits::maximumWidth;
+    rasterComponent.setTransform(juce::AffineTransform::scale(scaleFactor));
+    
+}
+
+// RASTER COMPONENT
+//==============================================================================
+
+RasterComponent::RasterComponent(USATAudioProcessor& p)
+: audioProcessor(p)
+{
+    
+}
+
+RasterComponent::~RasterComponent()
+{
+    
+}
+
+void RasterComponent::paint (juce::Graphics& g)
+{
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::white);
@@ -33,8 +67,7 @@ void USATAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
 }
 
-void USATAudioProcessorEditor::resized()
+void RasterComponent::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    
 }
