@@ -10,10 +10,15 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "StateManager.h"
+#include "UIConstants.h"
+#include "Header.h"
+#include "ControlSection.h"
+#include "VisualisationSection.h"
+#include "DecoderSettingsPanel.h"
 
 //==============================================================================
-/**
-*/
+
 class RasterComponent  : public juce::Component
 {
 public:
@@ -25,7 +30,12 @@ public:
 
 private:
     
-    USATAudioProcessor& audioProcessor;
+    USATAudioProcessor&     audioProcessor;
+    Header                  header;
+    ControlSection          controlSection;
+    VisualisationSection    visualisationSection;
+    DecoderSettingsPanel    decoderPanel;
+    
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RasterComponent)
 };

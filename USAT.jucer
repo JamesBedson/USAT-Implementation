@@ -40,6 +40,48 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="IM9YcK" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <GROUP id="{93CD12DE-13EC-0D1D-50F7-FCE85BCCF0EC}" name="UI">
+        <GROUP id="{54A54E2D-0526-F839-C5BE-00B936AB4E97}" name="Speaker Layout ">
+          <FILE id="OBC9vG" name="SpeakerLayoutPanel.cpp" compile="1" resource="0"
+                file="Source/SpeakerLayoutPanel.cpp"/>
+          <FILE id="Jx0Lt5" name="SpeakerLayoutPanel.h" compile="0" resource="0"
+                file="Source/SpeakerLayoutPanel.h"/>
+          <FILE id="FqPno9" name="SpeakerLayoutWindow.h" compile="0" resource="0"
+                file="Source/SpeakerLayoutWindow.h"/>
+        </GROUP>
+        <FILE id="aCswjv" name="AmbisonicsSelectorPanel.cpp" compile="1" resource="0"
+              file="Source/AmbisonicsSelectorPanel.cpp"/>
+        <FILE id="wYdxEN" name="AmbisonicsSelectorPanel.h" compile="0" resource="0"
+              file="Source/AmbisonicsSelectorPanel.h"/>
+        <FILE id="ZmxNKS" name="LayoutSelectorPanel.cpp" compile="1" resource="0"
+              file="Source/LayoutSelectorPanel.cpp"/>
+        <FILE id="AUo9vU" name="LayoutSelectorPanel.h" compile="0" resource="0"
+              file="Source/LayoutSelectorPanel.h"/>
+        <FILE id="gvksZg" name="VisualisationPanel.cpp" compile="1" resource="0"
+              file="Source/VisualisationPanel.cpp"/>
+        <FILE id="Lwsbwz" name="VisualisationPanel.h" compile="0" resource="0"
+              file="Source/VisualisationPanel.h"/>
+        <FILE id="w5m3T1" name="ParameterPanel.cpp" compile="1" resource="0"
+              file="Source/ParameterPanel.cpp"/>
+        <FILE id="rmvRhk" name="ParameterPanel.h" compile="0" resource="0"
+              file="Source/ParameterPanel.h"/>
+        <FILE id="c2jha5" name="FormatSelectorPanel.cpp" compile="1" resource="0"
+              file="Source/FormatSelectorPanel.cpp"/>
+        <FILE id="JFL8kK" name="FormatSelectorPanel.h" compile="0" resource="0"
+              file="Source/FormatSelectorPanel.h"/>
+        <FILE id="h4tKMJ" name="DecoderSettingsPanel.cpp" compile="1" resource="0"
+              file="Source/DecoderSettingsPanel.cpp"/>
+        <FILE id="e493lq" name="DecoderSettingsPanel.h" compile="0" resource="0"
+              file="Source/DecoderSettingsPanel.h"/>
+        <FILE id="zcS6di" name="ControlSection.cpp" compile="1" resource="0"
+              file="Source/ControlSection.cpp"/>
+        <FILE id="HxrFDM" name="ControlSection.h" compile="0" resource="0"
+              file="Source/ControlSection.h"/>
+        <FILE id="LPy0SF" name="Header.cpp" compile="1" resource="0" file="Source/Header.cpp"/>
+        <FILE id="vm6KGy" name="Header.h" compile="0" resource="0" file="Source/Header.h"/>
+        <FILE id="rSYHIY" name="VisualisationSection.cpp" compile="1" resource="0"
+              file="Source/VisualisationSection.cpp"/>
+        <FILE id="Jv4AAl" name="VisualisationSection.h" compile="0" resource="0"
+              file="Source/VisualisationSection.h"/>
         <FILE id="Kb62wX" name="UIConstants.h" compile="0" resource="0" file="Source/UIConstants.h"/>
       </GROUP>
     </GROUP>

@@ -211,3 +211,8 @@ void SpeakerManager::modifySpeakerProperty(int speakerID,
 juce::ValueTree& SpeakerManager::getSpeakerTree() {
     return speakerTree;
 }
+
+unsigned const int SpeakerManager::getSpeakerCount() const
+{
+    return static_cast<unsigned int>(speakerMap.size());
+}

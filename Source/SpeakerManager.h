@@ -57,12 +57,11 @@ public:
     void modifySpeakerProperty(int speakerID,
                                Speaker::SphericalCoordinates,
                                const float value);
-    
+    unsigned const int getSpeakerCount() const;
 private:
     
     std::unordered_map<int, std::unique_ptr<Speaker>> speakerMap;
     
-    unsigned int    speakerCount;
     juce::ValueTree speakerTree;
     
 };
