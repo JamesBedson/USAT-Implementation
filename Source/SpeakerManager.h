@@ -32,6 +32,12 @@ public:
     const float getCoordinate(const SphericalCoordinates& coordinate) const;
     static bool isValidCoordinate(const SphericalCoordinates& coordinate, const float& value);
     
+    void printCoordinates() {
+        for (int i = 0; i < 3; i++) {
+            DBG("Coordinate " << i + 1 << ": " << coordinates[i]);
+        }
+    }
+    
 private:
     
     std::array<float, 3>
@@ -58,10 +64,42 @@ public:
                                Speaker::SphericalCoordinates,
                                const float value);
     unsigned const int getSpeakerCount() const;
+    
+    void printSpeakerMapProperties() {
+        DBG("Printing all speakers in Map:");
+        DBG("===============================");
+        
+        for (auto& pair : speakerMap) {
+            DBG("Speaker ID: " << pair.first);
+            DBG("====================");
+            pair.second->printCoordinates();
+            DBG("");
+        }
+    }
+    
+    void printSpeakerTreeProperties() {
+        DBG("Printing all speakers in Tree:");
+        DBG("===============================");
+        
+        for (int i = 0; i < speakerTree.getNumChildren(); i++) {
+            
+            auto child      = speakerTree.getChild(i);
+            auto ident      = child.getProperty(ProcessingConstants::SpeakerProperties::ID);
+            auto azimuth    = child.getProperty(ProcessingConstants::SpeakerProperties::azimuth);
+            auto elevation  = child.getProperty(ProcessingConstants::SpeakerProperties::elevation);
+            auto distance   = child.getProperty(ProcessingConstants::SpeakerProperties::distance);
+            
+            DBG("ID: " << juce::String(ident));
+            DBG("Azimuth: " << juce::String(azimuth));
+            DBG("Elevation: " << juce::String(elevation));
+            DBG("Distance: " << juce::String(distance));
+            DBG("=======================================");
+        }
+    }
+    
 private:
     
-    std::unordered_map<int, std::unique_ptr<Speaker>> speakerMap;
-    
+    std::map<int, std::unique_ptr<Speaker>> speakerMap;
     juce::ValueTree speakerTree;
     
 };

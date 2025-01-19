@@ -28,9 +28,11 @@ stateManager(s)
     initTable();
     
     addAndMakeVisible(addSpeaker);
+    addSpeaker.addListener(this);
     addSpeaker.setButtonText("Add Speaker");
     
     addAndMakeVisible(removeSpeaker);
+    removeSpeaker.addListener(this);
     removeSpeaker.setButtonText("Remove Speaker");
 }
 
@@ -68,6 +70,7 @@ void SpeakerLayoutPanel::initTable()
     
     table.setMultipleSelectionEnabled(false);
     table.setHeaderHeight(30);
+    table.updateContent();
 }
 
 void SpeakerLayoutPanel::paint (juce::Graphics& g)
@@ -117,6 +120,8 @@ void SpeakerLayoutPanel::resized()
                             buttonWidth,
                             buttonHeight
                             );
+    
+    speakerIDSelected == 0 ? removeSpeaker.setEnabled(false) : void();
 }
 
 int SpeakerLayoutPanel::getNumRows()
@@ -131,18 +136,23 @@ void SpeakerLayoutPanel::paintCell(juce::Graphics& g,
                                    int height,
                                    bool rowIsSelected)
 {
-    g.setColour(juce::Colours::white);
     juce::String text;
     if (columnId == 1) {
-        text = "ID";
+        text << rowNumber + 1;
     }
     
     else {
-        auto coordinate = static_cast<Speaker::SphericalCoordinates>(columnId - 1);
-        text = getText(columnId, rowNumber, coordinate);
+        auto coordinate = getSpeakerAttributeFromColumn(columnId);
+        text            = getText(columnId, rowNumber, coordinate);
     }
     
-    g.drawText(text, 2, 0, width - 4, height, juce::Justification::centred);
+    g.setColour(juce::Colours::white);
+    g.drawText(text,
+               2,
+               0,
+               width - 4,
+               height,
+               juce::Justification::centred);
     
     
 }
@@ -153,13 +163,20 @@ void SpeakerLayoutPanel::paintRowBackground(juce::Graphics& g,
                                             int height,
                                             bool rowIsSelected)
 {
-    
+    if (rowNumber == speakerIDSelected - 1) {
+        DBG("Painting Selected colour for: " << rowNumber + 1);
+        g.fillAll(juce::Colours::lightblue);
+    }
+        
+    else {
+        DBG("Updating Colour for non selected ID: " << rowNumber + 1);
+        g.fillAll(juce::Colours::transparentBlack);
+    }
 }
 
 void SpeakerLayoutPanel::buttonClicked(juce::Button* button)
 {
     if (button == &addSpeaker) {
-        
         int
         defaultAzimuth      = 0.f,
         defaultElevation    = 0.f,
@@ -174,10 +191,17 @@ void SpeakerLayoutPanel::buttonClicked(juce::Button* button)
         speakerManager->addSpeaker(std::move(newSpeaker),
                                    numSpeakers + 1
                                    );
+        speakerIDSelected++;
+        speakerIDSelected > 0 ? removeSpeaker.setEnabled(true) : void();
+        table.updateContent();
     }
     
     else if (button == &removeSpeaker) {
         
+        speakerManager->removeSpeaker(speakerIDSelected);
+        speakerIDSelected = juce::jlimit(0, getNumRows(), speakerIDSelected);
+        speakerIDSelected == 0 ? removeSpeaker.setEnabled(false) : void();
+        table.updateContent();
     }
     
     else
@@ -188,21 +212,81 @@ const juce::String SpeakerLayoutPanel::getText(const int columnNumber,
                                                const int rowNumber,
                                                const Speaker::SphericalCoordinates coordinate)
 {
-    auto* currentSpeaker = speakerManager->getSpeaker(rowNumber);
+    auto* currentSpeaker = speakerManager->getSpeaker(rowNumber + 1);
+    if (coordinate == Speaker::SphericalCoordinates::Azimuth) {
+        auto azimuth = currentSpeaker->getCoordinate(Speaker::SphericalCoordinates::Azimuth);
+        return juce::String {azimuth};
+    }
     
-    switch (coordinate) {
-            
-        case Speaker::SphericalCoordinates::Azimuth:
-            auto azimuth = currentSpeaker->getCoordinate(Speaker::SphericalCoordinates::Azimuth);
-            return juce::String {azimuth};
-            
-        case Speaker::SphericalCoordinates::Elevation:
-            auto elevation = currentSpeaker->getCoordinate(Speaker::SphericalCoordinates::Elevation);
-            return juce::String {elevation};
-            
-        case Speaker::SphericalCoordinates::Distance:
-            auto distance = currentSpeaker->getCoordinate(Speaker::SphericalCoordinates::Distance);
-            return juce::String {distance};
-            
+    else if (coordinate == Speaker::SphericalCoordinates::Elevation) {
+        auto elevation = currentSpeaker->getCoordinate(Speaker::SphericalCoordinates::Elevation);
+        return juce::String {elevation};
+    }
+    
+    else if (coordinate == Speaker::SphericalCoordinates::Distance) {
+        auto distance = currentSpeaker->getCoordinate(Speaker::SphericalCoordinates::Distance);
+        return juce::String {distance};
+    }
+    
+    else {
+        jassertfalse;
+        return "";
+    }
+}
+
+void SpeakerLayoutPanel::updateSpeakerState(int row, int columnID, float value)
+{
+    //auto speakerToUpdate    = speakerManager->getSpeaker(row + 1);
+    auto coordinateType     = getSpeakerAttributeFromColumn(columnID);
+    speakerManager->modifySpeakerProperty(row + 1, coordinateType, value);
+    
+}
+
+const Speaker::SphericalCoordinates SpeakerLayoutPanel::getSpeakerAttributeFromColumn(int columnID)
+{
+    return static_cast<Speaker::SphericalCoordinates>(columnID - 2);
+}
+
+void SpeakerLayoutPanel::cellClicked(int rowNumber, int columnId, const juce::MouseEvent&)
+{
+    speakerIDSelected = rowNumber + 1;
+    removeSpeaker.setEnabled(true);
+    table.repaint();
+}
+
+void SpeakerLayoutPanel::backgroundClicked(const juce::MouseEvent&)
+{
+    speakerIDSelected = 0;
+    removeSpeaker.setEnabled(false);
+    table.repaint();
+    //table.updateContent();
+}
+
+juce::Component* SpeakerLayoutPanel::refreshComponentForCell(int rowNumber,
+                                                             int columnId,
+                                                             bool isRowSelected,
+                                                             juce::Component* existingComponentToUpdate)
+{
+    if (columnId == 1) // ID
+    {
+        jassert(existingComponentToUpdate == nullptr);
+        return nullptr;
+    }
+    
+    else {
+        
+        EditableTextComponent* textComponent = static_cast<EditableTextComponent*>(existingComponentToUpdate);
+        
+        if (textComponent == nullptr)
+            textComponent = new EditableTextComponent(*this);
+        
+        textComponent->setRowAndColumn(rowNumber, columnId);
+        
+        auto coordinateType = getSpeakerAttributeFromColumn(columnId);
+        auto currentSpeaker = speakerManager->getSpeaker(rowNumber + 1);
+        auto initialText    = juce::String {currentSpeaker->getCoordinate(coordinateType)};
+        
+        textComponent->setText(initialText, juce::dontSendNotification);
+        return textComponent;
     }
 }

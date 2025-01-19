@@ -56,6 +56,7 @@ const float Speaker::getCoordinate(const SphericalCoordinates& coordinate) const
 // ==================================================================================================================
 
 SpeakerManager::SpeakerManager()
+: speakerTree("Speaker Layout")
 {
     
 }
@@ -75,17 +76,24 @@ void SpeakerManager::addSpeaker(std::unique_ptr<Speaker> newSpeaker, int speaker
     speakerMap[speakerID] = std::move(newSpeaker);
     
     // Speaker Tree
-    juce::ValueTree speakerInfo;
+    juce::ValueTree speakerInfo {"Speaker " + juce::String(speakerID)};
+    
+    jassert(speakerInfo.isValid());
+    
+    speakerInfo.setProperty(ProcessingConstants::SpeakerProperties::ID,
+                            speakerID,
+                            nullptr);
+    
     speakerInfo.setProperty(ProcessingConstants::SpeakerProperties::azimuth,
-                            newSpeaker->getCoordinate(Speaker::SphericalCoordinates::Azimuth),
+                            speakerMap[speakerID]->getCoordinate(Speaker::SphericalCoordinates::Azimuth),
                             nullptr);
 
     speakerInfo.setProperty(ProcessingConstants::SpeakerProperties::elevation,
-                            newSpeaker->getCoordinate(Speaker::SphericalCoordinates::Elevation),
+                            speakerMap[speakerID]->getCoordinate(Speaker::SphericalCoordinates::Elevation),
                             nullptr);
     
     speakerInfo.setProperty(ProcessingConstants::SpeakerProperties::distance,
-                            newSpeaker->getCoordinate(Speaker::SphericalCoordinates::Distance),
+                            speakerMap[speakerID]->getCoordinate(Speaker::SphericalCoordinates::Distance),
                             nullptr);
     
     speakerTree.appendChild(speakerInfo, nullptr);
@@ -102,23 +110,50 @@ void SpeakerManager::replaceSpeaker(std::unique_ptr<Speaker> newSpeaker, int spe
 
 void SpeakerManager::removeSpeaker(int speakerID)
 {
-    // Internal List
+    // Internal List: Find and erase the speaker by ID
     auto it = speakerMap.find(speakerID);
-    if (it == speakerMap.end())
+    if (it == speakerMap.end()) {
         jassertfalse;
+        return;
+    }
+
     speakerMap.erase(it);
+    std::map<int, std::unique_ptr<Speaker>> updatedSpeakerMap;
     
-    // Speaker Tree
-    auto speakerInfo = speakerTree.getChildWithProperty(ProcessingConstants::SpeakerProperties::ID,
-                                                        speakerID);
-    if (speakerInfo.isValid())
-        speakerTree.removeChild(speakerInfo, nullptr);
+    int newID = 1;
+    for (auto& pair : speakerMap) {
+        updatedSpeakerMap[newID] = std::move(pair.second);
+        ++newID;
+    }
+    
+    speakerMap = std::move(updatedSpeakerMap);
+    //printSpeakerMapProperties();
+
+    for (int i = speakerTree.getNumChildren() - 1; i >= 0; --i)
+    {
+        auto child = speakerTree.getChild(i);
+        int childID = child.getProperty(ProcessingConstants::SpeakerProperties::ID);
+
+        if (childID == speakerID)
+            speakerTree.removeChild(i,
+                                    nullptr);
+        
+        else if (childID > speakerID)
+            child.setProperty(ProcessingConstants::SpeakerProperties::ID,
+                              childID - 1,
+                              nullptr);
+    }
+    
+    //printSpeakerTreeProperties();
 }
+
+
+
 
 const std::vector<int> SpeakerManager::getVectorCurrentIDs() const
 {
     std::vector<int> speakerIDs;
-    speakerIDs.reserve(speakerMap.size()); // Reserve space to avoid reallocations
+    speakerIDs.reserve(speakerMap.size());
 
     for (const auto& pair : speakerMap) {
         speakerIDs.push_back(pair.first);
@@ -185,8 +220,9 @@ void SpeakerManager::modifySpeakerProperty(int speakerID,
     speaker->changeSpeakerCoordinates(coordinate, value);
     
     // Modify Speaker in Speaker Tree
-    juce::Identifier treeID = static_cast<juce::String>(std::to_string(speakerID));
+    juce::Identifier treeID {"Speaker " + juce::String(speakerID)};
     auto speakerInfo        = speakerTree.getChildWithName(treeID);
+    jassert(speakerInfo.isValid());
     
     switch (coordinate) {
         case Speaker::Azimuth:
