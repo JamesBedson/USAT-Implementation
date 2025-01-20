@@ -37,6 +37,7 @@ private:
     loadLayout;
     
     void showSaveDialog();
+    void showLoadDialog();
     std::unique_ptr<juce::FileChooser> saveFile;
     
     const UI::FormatType formatType;

@@ -177,3 +177,8 @@ void LayoutSelectorPanel::showSaveDialog()
             }
         });
 }
+
+void LayoutSelectorPanel::showLoadDialog() 
+{
+
+}
