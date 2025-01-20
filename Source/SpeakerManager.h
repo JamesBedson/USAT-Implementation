@@ -91,10 +91,10 @@ public:
             auto elevation  = child.getProperty(ProcessingConstants::SpeakerProperties::elevation);
             auto distance   = child.getProperty(ProcessingConstants::SpeakerProperties::distance);
             
-            DBG("ID: " << juce::String(ident));
-            DBG("Azimuth: " << juce::String(azimuth));
-            DBG("Elevation: " << juce::String(elevation));
-            DBG("Distance: " << juce::String(distance));
+            DBG("ID: " << ident.toString());
+            DBG("Azimuth: " << azimuth.toString());
+            DBG("Elevation: " << elevation.toString());
+            DBG("Distance: " << distance.toString());
             DBG("=======================================");
         }
     }

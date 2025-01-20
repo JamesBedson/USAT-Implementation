@@ -102,7 +102,7 @@ namespace ProcessingConstants {
     
     
     // energy
-    constexpr float startValEnergy                  {0.1};
+    constexpr float startValEnergy                  {0.1f};
     constexpr float endValEnergy                    {10.f};
     constexpr float incrementEnergy                 {0.1f};
     constexpr float defaultEnergy                   {5.f};
