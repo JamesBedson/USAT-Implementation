@@ -10,31 +10,32 @@
 
 #include "StateManager.h"
 
-const juce::File StateManager::defaultPythonExecutableDirectory
+const juce::File StateManager::baseDirectory
 {
         juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory).getChildFile(ProjectInfo::companyName)
             .getChildFile(ProjectInfo::projectName)
 };
 
-const juce::File StateManager::pythonExecutable
+const juce::File StateManager::pythonExecutableDirectory
 {
-        defaultPythonExecutableDirectory
+        baseDirectory
                 .getChildFile(ProcessingConstants::Paths::executableName)
+};
+
+const juce::File StateManager::speakerLayoutDirectory
+{
+    baseDirectory.getChildFile(ProcessingConstants::Paths::speakerLayoutDir)
 };
 
 StateManager::StateManager(APVTS& apvts)
 : apvts(apvts),
 pluginParameterHandler(apvts)
 {
-    if (!defaultPythonExecutableDirectory.exists()) {
-        // Create directory
-        auto result = defaultPythonExecutableDirectory.createDirectory();
-        
-        if (result.failed()) {
-            DBG("Could not create directory: " + result.getErrorMessage());
-            jassertfalse;
-        }
-    }
+    ensureDirectoryExists(baseDirectory);
+    ensureDirectoryExists(speakerLayoutDirectory);
+    
+    DBG("Base Directory Path: " + baseDirectory.getFullPathName());
+    DBG("Speaker Layout Path: " + speakerLayoutDirectory.getFullPathName());
 }
 
 StateManager::~StateManager()

@@ -22,10 +22,22 @@ class StateManager {
 public:
     StateManager(APVTS& apvts);
     ~StateManager();
-    static const juce::File defaultPythonExecutableDirectory;
-    static const juce::File pythonExecutable;
+    static const juce::File baseDirectory;
+    static const juce::File pythonExecutableDirectory;
+    static const juce::File speakerLayoutDirectory;
     
-    void setUpExecutableDirectory();
+    void ensureDirectoryExists(const juce::File& directory)
+    {
+        if (!directory.exists())
+        {
+            auto result = directory.createDirectory();
+            if (result.failed())
+            {
+                DBG("Could not create directory: " + result.getErrorMessage());
+                jassertfalse;
+            }
+        }
+    }
     
     APVTS&                      apvts;
     PluginParameterHandler      pluginParameterHandler;

@@ -65,6 +65,8 @@ public:
                                const float value);
     unsigned const int getSpeakerCount() const;
     
+    void saveCurrentLayoutToXML(const juce::File& xmlFile);
+    
     void printSpeakerMapProperties() {
         DBG("Printing all speakers in Map:");
         DBG("===============================");

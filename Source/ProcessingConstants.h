@@ -12,7 +12,8 @@
 namespace ProcessingConstants {
 
     namespace Paths {
-    const juce::String executableName = "receive_parameters";
+    const juce::String executableName   = "receive_parameters";
+    const juce::String speakerLayoutDir = "Speaker_Layouts";
     
     }
 

@@ -33,8 +33,11 @@ public:
 private:
     juce::TextButton
     editLayout,
-    saveConfig,
-    loadConfig;
+    saveLayout,
+    loadLayout;
+    
+    void showSaveDialog();
+    std::unique_ptr<juce::FileChooser> saveFile;
     
     const UI::FormatType formatType;
     juce::Component::SafePointer<SpeakerLayoutWindow> layoutWindow;

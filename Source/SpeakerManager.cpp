@@ -56,7 +56,7 @@ const float Speaker::getCoordinate(const SphericalCoordinates& coordinate) const
 // ==================================================================================================================
 
 SpeakerManager::SpeakerManager()
-: speakerTree("Speaker Layout")
+: speakerTree("Speaker_Layout")
 {
     
 }
@@ -76,7 +76,7 @@ void SpeakerManager::addSpeaker(std::unique_ptr<Speaker> newSpeaker, int speaker
     speakerMap[speakerID] = std::move(newSpeaker);
     
     // Speaker Tree
-    juce::ValueTree speakerInfo {"Speaker " + juce::String(speakerID)};
+    juce::ValueTree speakerInfo {"Speaker_" + juce::String(speakerID)};
     
     jassert(speakerInfo.isValid());
     
@@ -147,7 +147,34 @@ void SpeakerManager::removeSpeaker(int speakerID)
     //printSpeakerTreeProperties();
 }
 
-
+void SpeakerManager::saveCurrentLayoutToXML(const juce::File &xmlFile) {
+    
+    if (auto xml = speakerTree.createXml()) {
+        if (!xmlFile.existsAsFile()) {
+            auto fileRes = xmlFile.create();
+            
+            if (fileRes.failed()) {
+                DBG("Failed to create XML file for speaker layout: " + fileRes.getErrorMessage());
+                jassertfalse;
+                return;
+            }
+        }
+        
+        if (!xml->writeTo(xmlFile)) {
+            DBG("Failed to write to XML file");
+            jassertfalse;
+        }
+        
+        else {
+            DBG("Successfully saved speaker layout.");
+        }
+    }
+    
+    else {
+        DBG("Failed to convert value tree to XML");
+        jassertfalse;
+    }
+}
 
 
 const std::vector<int> SpeakerManager::getVectorCurrentIDs() const
@@ -220,7 +247,7 @@ void SpeakerManager::modifySpeakerProperty(int speakerID,
     speaker->changeSpeakerCoordinates(coordinate, value);
     
     // Modify Speaker in Speaker Tree
-    juce::Identifier treeID {"Speaker " + juce::String(speakerID)};
+    juce::Identifier treeID {"Speaker_" + juce::String(speakerID)};
     auto speakerInfo        = speakerTree.getChildWithName(treeID);
     jassert(speakerInfo.isValid());
     

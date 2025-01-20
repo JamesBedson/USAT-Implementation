@@ -18,16 +18,16 @@ LayoutSelectorPanel::LayoutSelectorPanel(StateManager& s,
 stateManager(s)
 {
     addAndMakeVisible(editLayout);
-    addAndMakeVisible(saveConfig);
-    addAndMakeVisible(loadConfig);
+    addAndMakeVisible(saveLayout);
+    addAndMakeVisible(loadLayout);
     
     editLayout.setButtonText("edit");
-    saveConfig.setButtonText("save");
-    loadConfig.setButtonText("load");
+    saveLayout.setButtonText("save");
+    loadLayout.setButtonText("load");
     
     editLayout.addListener(this);
-    saveConfig.addListener(this);
-    loadConfig.addListener(this);
+    saveLayout.addListener(this);
+    loadLayout.addListener(this);
 }
 
 LayoutSelectorPanel::~LayoutSelectorPanel()
@@ -78,7 +78,7 @@ void LayoutSelectorPanel::resized()
     saveX = getLocalBounds().getCentreX() - buttonWidth / 2.f,
     saveY = editLayout.getY();
     
-    saveConfig.setBounds(saveX,
+    saveLayout.setBounds(saveX,
                          saveY,
                          buttonWidth,
                          buttonHeight
@@ -88,7 +88,7 @@ void LayoutSelectorPanel::resized()
     loadX = getLocalBounds().getRight() - buttonWidth - padding,
     loadY = editLayout.getY();
     
-    loadConfig.setBounds(loadX,
+    loadLayout.setBounds(loadX,
                          loadY,
                          buttonWidth,
                          buttonHeight
@@ -125,14 +125,55 @@ void LayoutSelectorPanel::buttonClicked(juce::Button* button)
         }
     }
     
-    else if (button == &saveConfig) {
-        DBG("save");
+    else if (button == &saveLayout) {
+        showSaveDialog();
     }
     
-    else if (button == &loadConfig) {
+    else if (button == &loadLayout) {
         DBG("load");
     }
     
     else
         jassertfalse;
+}
+
+void LayoutSelectorPanel::showSaveDialog()
+{
+    saveFile = std::make_unique<juce::FileChooser>(
+        "Choose a name",
+        StateManager::speakerLayoutDirectory,
+        "*.xml",
+        true,
+        this);
+
+    constexpr auto fileChooserFlags = juce::FileBrowserComponent::saveMode;
+    
+    saveFile->launchAsync(
+        fileChooserFlags,
+        [this] (const juce::FileChooser& chooser)
+        {
+            DBG("Entered lambda");
+            const juce::File chosenFile = chooser.getResult();
+
+            if (chosenFile != juce::File{}) {
+                
+                juce::File fileToSave = chosenFile.hasFileExtension(".xml")
+                                            ? chosenFile
+                                            : chosenFile.withFileExtension(".xml");
+
+                DBG("Chosen file: " + fileToSave.getFullPathName());
+                
+                formatType == UI::FormatType::input ?
+                stateManager.transcodingConfigHandler.speakerManagerInput
+                    .saveCurrentLayoutToXML(fileToSave)
+                :
+                stateManager.transcodingConfigHandler.speakerManagerOutput
+                    .saveCurrentLayoutToXML(fileToSave);
+            
+            }
+            
+            else {
+                DBG("Save dialog canceled by user.");
+            }
+        });
 }
