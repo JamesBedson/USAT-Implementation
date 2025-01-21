@@ -47,7 +47,7 @@ private:
 class SpeakerManager {
     
 public:
-    SpeakerManager();
+    SpeakerManager(const juce::String treeType);
     ~SpeakerManager();
     
     

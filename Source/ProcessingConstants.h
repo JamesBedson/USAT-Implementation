@@ -19,10 +19,14 @@ namespace ProcessingConstants {
 
     namespace SpeakerProperties {
     
-    const juce::String  ID          = "ID";
-    const juce::String  azimuth     = "Azimuth";
-    const juce::String  elevation   = "Elevation";
-    const juce::String  distance    = "Distance";
+    const juce::String  ID              = "ID";
+    const juce::String  azimuth         = "Azimuth";
+    const juce::String  elevation       = "Elevation";
+    const juce::String  distance        = "Distance";
+
+    const juce::String  inputTreeType   = "Input_Loudspeaker_Layout";
+    const juce::String  outputTreeType  = "Output_Loudspeaker_Layout";
+
     }
 
     namespace PluginParameterNames {

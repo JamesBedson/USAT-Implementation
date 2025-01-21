@@ -35,7 +35,10 @@ private:
     editLayout,
     saveLayout,
     loadLayout;
-    
+
+    juce::Label
+        layoutName;
+
     void showSaveDialog();
     void showLoadDialog();
     std::unique_ptr<juce::FileChooser> fileChooser;

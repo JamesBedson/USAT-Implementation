@@ -21,7 +21,7 @@ Speaker::Speaker(const float& azimuth,
 
 Speaker::~Speaker()
 {
-    
+
 }
 
 void Speaker::changeSpeakerCoordinates(const SphericalCoordinates &coordinate, const float &value)
@@ -55,10 +55,10 @@ const float Speaker::getCoordinate(const SphericalCoordinates& coordinate) const
 
 // ==================================================================================================================
 
-SpeakerManager::SpeakerManager()
-: speakerTree("Speaker_Layout")
+SpeakerManager::SpeakerManager(const juce::String treeType)
+: speakerTree(treeType)
 {
-    
+
 }
 
 SpeakerManager::~SpeakerManager()

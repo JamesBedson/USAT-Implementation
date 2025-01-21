@@ -11,6 +11,8 @@
 #include "TranscodingConfigHandler.h"
 
 TranscodingConfigHandler::TranscodingConfigHandler()
+    : speakerManagerInput(ProcessingConstants::SpeakerProperties::inputTreeType),
+    speakerManagerOutput(ProcessingConstants::SpeakerProperties::outputTreeType)
 {
     speakerManagerInput.generateSpeakerTree();
     speakerManagerOutput.generateSpeakerTree();
