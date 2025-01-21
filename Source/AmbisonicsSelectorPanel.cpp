@@ -16,9 +16,11 @@ AmbisonicsSelectorPanel::AmbisonicsSelectorPanel(StateManager& s,
                                                  const UI::FormatType formatType)
 : formatType(formatType)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    addAndMakeVisible(orders);
+    orders.setText("Ambisonics Order");
+    orders.addItemList(ProcessingConstants::EncodingOptions::Ambisonics::orderChoices,
+                       1
+                       );
 }
 
 AmbisonicsSelectorPanel::~AmbisonicsSelectorPanel()
@@ -27,12 +29,6 @@ AmbisonicsSelectorPanel::~AmbisonicsSelectorPanel()
 
 void AmbisonicsSelectorPanel::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
 
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
@@ -41,13 +37,20 @@ void AmbisonicsSelectorPanel::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (juce::FontOptions (14.0f));
-    g.drawText ("AmbisonicsSelectorPanel", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void AmbisonicsSelectorPanel::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
-
+    const float
+    panelHeight     = getHeight(),
+    panelWidth      = getWidth(),
+    padding         = panelHeight * UI::AmbisonicsSelectorPanelFactors::paddingFactor,
+    comboBoxWidth   = panelWidth * UI::AmbisonicsSelectorPanelFactors::comboBoxWidthFactor,
+    comboBoxHeight  = panelHeight * UI::AmbisonicsSelectorPanelFactors::comboBoxHeightFactor,
+    comboBoxCentreX = getLocalBounds().getCentreX(),
+    comboBoxCentreY = padding + panelHeight * UI::AmbisonicsSelectorPanelFactors::ordersYPosFactor;
+    
+    orders.setBounds(0, 0, comboBoxWidth, comboBoxHeight);
+    orders.setCentrePosition(comboBoxCentreX, comboBoxCentreY);
+    
 }

@@ -28,5 +28,9 @@ public:
 
 private:
     const UI::FormatType formatType;
+    
+    juce::ComboBox
+    orders;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AmbisonicsSelectorPanel)
 };

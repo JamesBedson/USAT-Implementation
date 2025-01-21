@@ -18,16 +18,30 @@ LayoutSelectorPanel::LayoutSelectorPanel(StateManager& s,
 stateManager(s)
 {
     addAndMakeVisible(editLayout);
-    addAndMakeVisible(saveLayout);
+    addAndMakeVisible(exportLayout);
     addAndMakeVisible(loadLayout);
+    addAndMakeVisible(layoutName);
     
     editLayout.setButtonText("edit");
-    saveLayout.setButtonText("save");
-    loadLayout.setButtonText("load");
+    exportLayout.setButtonText("export");
+    loadLayout.setButtonText("import");
+    
+    layoutName.setEditable(true);
+    layoutName.setJustificationType(juce::Justification::centred);
+    
+    formatType == UI::FormatType::input
+    ?
+    layoutName.setText(ProcessingConstants::SpeakerProperties::inputTreeType,
+                       juce::NotificationType::dontSendNotification)
+    :
+    layoutName.setText(ProcessingConstants::SpeakerProperties::outputTreeType,
+                       juce::NotificationType::dontSendNotification);
     
     editLayout.addListener(this);
-    saveLayout.addListener(this);
+    exportLayout.addListener(this);
     loadLayout.addListener(this);
+    
+
 }
 
 LayoutSelectorPanel::~LayoutSelectorPanel()
@@ -37,22 +51,14 @@ LayoutSelectorPanel::~LayoutSelectorPanel()
 
 void LayoutSelectorPanel::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
 
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+    g.drawRect (getLocalBounds(), 1);
 
     g.setColour (juce::Colours::white);
     g.setFont (juce::FontOptions (14.0f));
-    g.drawText ("LayoutSelectorPanel", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void LayoutSelectorPanel::resized()
@@ -63,6 +69,15 @@ void LayoutSelectorPanel::resized()
     padding         = (panelWidth + panelHeight) * UI::SpeakerLayoutPanelFactors::paddingFactor,
     buttonWidth     = panelWidth / 3.f - 3 * padding,
     buttonHeight    = panelHeight / 3.f - 2 * padding;
+    
+    const float
+    labelCentreX    = getLocalBounds().getCentreX(),
+    labelY          = padding + panelHeight * UI::SpeakerLayoutPanelFactors::labelYPosFactor,
+    labelWidth      = panelWidth * UI::SpeakerLayoutPanelFactors::labelWidthFactor,
+    labelHeight     = panelHeight * UI::SpeakerLayoutPanelFactors::labelHeightFactor;
+    
+    layoutName.setBounds(0, 0, labelWidth, labelHeight);
+    layoutName.setCentrePosition(labelCentreX, labelY);
     
     const float
     editX   = padding,
@@ -78,7 +93,7 @@ void LayoutSelectorPanel::resized()
     saveX = getLocalBounds().getCentreX() - buttonWidth / 2.f,
     saveY = editLayout.getY();
     
-    saveLayout.setBounds(saveX,
+    exportLayout.setBounds(saveX,
                          saveY,
                          buttonWidth,
                          buttonHeight
@@ -125,12 +140,12 @@ void LayoutSelectorPanel::buttonClicked(juce::Button* button)
         }
     }
     
-    else if (button == &saveLayout) {
-        showSaveDialog();
+    else if (button == &exportLayout) {
+        showExportDialog();
     }
     
     else if (button == &loadLayout) {
-        showLoadDialog();
+        showImportDialog();
         
         // TODO: Check if load was successful.
         if (layoutWindow != nullptr)
@@ -141,7 +156,7 @@ void LayoutSelectorPanel::buttonClicked(juce::Button* button)
         jassertfalse;
 }
 
-void LayoutSelectorPanel::showSaveDialog()
+void LayoutSelectorPanel::showExportDialog()
 {
     fileChooser = std::make_unique<juce::FileChooser>(
         "Choose a name",
@@ -156,7 +171,7 @@ void LayoutSelectorPanel::showSaveDialog()
         fileChooserFlags,
         [this] (const juce::FileChooser& chooser)
         {
-            DBG("Saving File...");
+            DBG("Exporting File...");
             const juce::File chosenFile = chooser.getResult();
 
             if (chosenFile != juce::File{}) {
@@ -181,7 +196,7 @@ void LayoutSelectorPanel::showSaveDialog()
         });
 }
 
-void LayoutSelectorPanel::showLoadDialog() 
+void LayoutSelectorPanel::showImportDialog() 
 {
     fileChooser = std::make_unique<juce::FileChooser>(
         "Choose a name",
@@ -197,7 +212,7 @@ void LayoutSelectorPanel::showLoadDialog()
         fileChooserFlags,
         [this](const juce::FileChooser& chooser)
         {
-            DBG("Loading File...");
+            DBG("Importing File...");
             const juce::File chosenFile = chooser.getResult();
 
             if (chosenFile != juce::File{}) {

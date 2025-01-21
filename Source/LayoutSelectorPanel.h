@@ -33,14 +33,14 @@ public:
 private:
     juce::TextButton
     editLayout,
-    saveLayout,
+    exportLayout,
     loadLayout;
 
     juce::Label
         layoutName;
 
-    void showSaveDialog();
-    void showLoadDialog();
+    void showExportDialog();
+    void showImportDialog();
     std::unique_ptr<juce::FileChooser> fileChooser;
     
     const UI::FormatType formatType;

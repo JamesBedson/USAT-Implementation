@@ -71,13 +71,27 @@ namespace SpeakerLayoutPanelFactors {
 static constexpr float
 paddingFactor       = 0.01f,
 tableWidthFactor    = 0.6f,
-tableHeightFactor   = 0.9f;
+tableHeightFactor   = 0.9f,
+labelYPosFactor     = 0.35f,
+labelWidthFactor    = 0.8f,
+labelHeightFactor   = 0.2f;
 
 static constexpr int
 idWidth         = 50,
 azimuthWidth    = 50,
 elevationWidth  = 50,
 distanceWidth   = 50;
+
+}
+
+namespace AmbisonicsSelectorPanelFactors {
+
+static constexpr float
+paddingFactor           = 0.01f,
+comboBoxHeightFactor    = 0.2f,
+comboBoxWidthFactor     = 0.8f,
+ordersYPosFactor        = 0.35f;
+
 }
 
 }

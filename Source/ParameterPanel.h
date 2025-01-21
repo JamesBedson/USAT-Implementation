@@ -16,6 +16,8 @@
 //==============================================================================
 /*
 */
+using Attachment = juce::AudioProcessorValueTreeState::SliderAttachment;
+
 class ParameterPanel  : public juce::Component
 {
 public:
@@ -27,6 +29,45 @@ public:
 
 private:
     StateManager& stateManager;
+    
+    juce::Slider
+    energy,
+    radialIntensity,
+    pressure,
+    radialVelocity,
+    transverseVelocity,
+    inPhaseQuadratic,
+    symmetryQuadratic,
+    inPhaseLinear,
+    symmetryLinear,
+    totalGainsLinear,
+    totalGainsQuadratic;
+    
+    juce::Label
+    energyLabel,
+    radialIntensityLabel,
+    pressureLabel,
+    radialVelocityLabel,
+    transverseVelocityLabel,
+    inPhaseQuadraticLabel,
+    symmetryQuadraticLabel,
+    inPhaseLinearLabel,
+    symmetryLinearLabel,
+    totalGainsLinearLabel,
+    totalGainsQuadraticLabel;
+    
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> energyAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> radialIntensityAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> pressureAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> radialVelocityAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> transverseVelocityAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> inPhaseQuadraticAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> symmetryQuadraticAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> inPhaseLinearAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> symmetryLinearAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> totalGainsLinearAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> totalGainsQuadraticAttachment;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterPanel)
 };
 

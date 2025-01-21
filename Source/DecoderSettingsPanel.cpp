@@ -15,9 +15,8 @@
 DecoderSettingsPanel::DecoderSettingsPanel(USATAudioProcessor& p)
 : audioProcessor(p)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    addAndMakeVisible(decode);
+    decode.setButtonText("decode");
 }
 
 DecoderSettingsPanel::~DecoderSettingsPanel()
@@ -40,13 +39,17 @@ void DecoderSettingsPanel::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (juce::FontOptions (14.0f));
-    g.drawText ("DecoderSettingsPanel", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void DecoderSettingsPanel::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
-
+    const float
+    buttonCentreX = getLocalBounds().getCentreX(),
+    buttonCentreY = getLocalBounds().getCentreY(),
+    buttonWidth   = getWidth() * 0.2f,
+    buttonHeight  = getHeight() * 0.4f;
+    
+    decode.setBounds(0, 0, buttonWidth, buttonHeight);
+    decode.setCentrePosition(buttonCentreX, buttonCentreY);
+    
 }
