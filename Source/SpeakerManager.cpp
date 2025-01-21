@@ -110,7 +110,6 @@ void SpeakerManager::replaceSpeaker(std::unique_ptr<Speaker> newSpeaker, int spe
 
 void SpeakerManager::removeSpeaker(int speakerID)
 {
-    // Internal List: Find and erase the speaker by ID
     auto it = speakerMap.find(speakerID);
     if (it == speakerMap.end()) {
         jassertfalse;
@@ -127,7 +126,6 @@ void SpeakerManager::removeSpeaker(int speakerID)
     }
     
     speakerMap = std::move(updatedSpeakerMap);
-    //printSpeakerMapProperties();
 
     for (int i = speakerTree.getNumChildren() - 1; i >= 0; --i)
     {
@@ -143,8 +141,6 @@ void SpeakerManager::removeSpeaker(int speakerID)
                               childID - 1,
                               nullptr);
     }
-    
-    //printSpeakerTreeProperties();
 }
 
 void SpeakerManager::saveCurrentLayoutToXML(const juce::File &xmlFile) {
@@ -173,6 +169,41 @@ void SpeakerManager::saveCurrentLayoutToXML(const juce::File &xmlFile) {
     else {
         DBG("Failed to convert value tree to XML");
         jassertfalse;
+    }
+}
+
+void SpeakerManager::loadValueTreeFromXML(const juce::File& xmlFile)
+{
+    auto xmlString      = xmlFile.loadFileAsString();
+    auto newSpeakerTree = juce::ValueTree::fromXml(xmlString);
+
+    if (!newSpeakerTree.isValid()) {
+        jassertfalse;
+        return; // TODO: Handle erroneous XML file
+    }
+
+    recoverStateFromValueTree(newSpeakerTree);
+    //printSpeakerMapProperties();
+    //printSpeakerTreeProperties();
+}
+
+void SpeakerManager::recoverStateFromValueTree(const juce::ValueTree& newValueTree) 
+{
+    speakerTree         = newValueTree;
+    auto numSpeakers    = speakerTree.getNumChildren();
+    speakerMap.clear();
+
+    for (int i = 0; i < numSpeakers; i++) {
+        auto speakerInfo = speakerTree.getChild(i);
+        jassert(speakerInfo.isValid());
+
+        auto id         = static_cast<int>(speakerInfo.getProperty(ProcessingConstants::SpeakerProperties::ID));
+        auto azimuth    = static_cast<float>(speakerInfo.getProperty(ProcessingConstants::SpeakerProperties::azimuth));
+        auto elevation  = static_cast<float>(speakerInfo.getProperty(ProcessingConstants::SpeakerProperties::elevation));
+        auto distance   = static_cast<float>(speakerInfo.getProperty(ProcessingConstants::SpeakerProperties::distance));
+
+        std::unique_ptr<Speaker> newSpeaker = std::make_unique<Speaker>(azimuth, elevation, distance);
+        speakerMap[id] = std::move(newSpeaker);
     }
 }
 

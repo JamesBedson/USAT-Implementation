@@ -63,10 +63,13 @@ public:
     void modifySpeakerProperty(int speakerID,
                                Speaker::SphericalCoordinates,
                                const float value);
+
     unsigned const int getSpeakerCount() const;
     
     void saveCurrentLayoutToXML(const juce::File& xmlFile);
-    
+    void loadValueTreeFromXML(const juce::File& xmlFile);
+    void recoverStateFromValueTree(const juce::ValueTree& newValueTree);
+
     void printSpeakerMapProperties() {
         DBG("Printing all speakers in Map:");
         DBG("===============================");

@@ -38,7 +38,7 @@ private:
     
     void showSaveDialog();
     void showLoadDialog();
-    std::unique_ptr<juce::FileChooser> saveFile;
+    std::unique_ptr<juce::FileChooser> fileChooser;
     
     const UI::FormatType formatType;
     juce::Component::SafePointer<SpeakerLayoutWindow> layoutWindow;

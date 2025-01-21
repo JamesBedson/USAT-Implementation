@@ -130,7 +130,11 @@ void LayoutSelectorPanel::buttonClicked(juce::Button* button)
     }
     
     else if (button == &loadLayout) {
-        DBG("load");
+        showLoadDialog();
+        
+        // TODO: Check if load was successful.
+        if (layoutWindow != nullptr)
+            layoutWindow.getComponent()->repaint();
     }
     
     else
@@ -139,7 +143,7 @@ void LayoutSelectorPanel::buttonClicked(juce::Button* button)
 
 void LayoutSelectorPanel::showSaveDialog()
 {
-    saveFile = std::make_unique<juce::FileChooser>(
+    fileChooser = std::make_unique<juce::FileChooser>(
         "Choose a name",
         StateManager::speakerLayoutDirectory,
         "*.xml",
@@ -148,11 +152,11 @@ void LayoutSelectorPanel::showSaveDialog()
 
     constexpr auto fileChooserFlags = juce::FileBrowserComponent::saveMode;
     
-    saveFile->launchAsync(
+    fileChooser->launchAsync(
         fileChooserFlags,
         [this] (const juce::FileChooser& chooser)
         {
-            DBG("Entered lambda");
+            DBG("Saving File...");
             const juce::File chosenFile = chooser.getResult();
 
             if (chosenFile != juce::File{}) {
@@ -169,7 +173,6 @@ void LayoutSelectorPanel::showSaveDialog()
                 :
                 stateManager.transcodingConfigHandler.speakerManagerOutput
                     .saveCurrentLayoutToXML(fileToSave);
-            
             }
             
             else {
@@ -180,5 +183,41 @@ void LayoutSelectorPanel::showSaveDialog()
 
 void LayoutSelectorPanel::showLoadDialog() 
 {
+    fileChooser = std::make_unique<juce::FileChooser>(
+        "Choose a name",
+        StateManager::speakerLayoutDirectory,
+        "*.xml",
+        true,
+        this
+        );
 
+    constexpr auto fileChooserFlags = juce::FileBrowserComponent::openMode;
+
+    fileChooser->launchAsync(
+        fileChooserFlags,
+        [this](const juce::FileChooser& chooser)
+        {
+            DBG("Loading File...");
+            const juce::File chosenFile = chooser.getResult();
+
+            if (chosenFile != juce::File{}) {
+
+                juce::File fileToLoad = chosenFile.hasFileExtension(".xml")
+                    ? chosenFile
+                    : chosenFile.withFileExtension(".xml");
+
+                DBG("Chosen file: " + fileToLoad.getFullPathName());
+
+                formatType == UI::FormatType::input ?
+                    stateManager.transcodingConfigHandler.speakerManagerInput
+                    .loadValueTreeFromXML(fileToLoad)
+                    :
+                    stateManager.transcodingConfigHandler.speakerManagerOutput
+                    .loadValueTreeFromXML(fileToLoad);
+            }
+
+            else {
+                DBG("Save dialog canceled by user.");
+            }
+        });
 }
