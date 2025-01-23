@@ -302,7 +302,7 @@ void SpeakerManager::modifySpeakerProperty(int speakerID,
     }
 }
 
-juce::ValueTree& SpeakerManager::getSpeakerTree() {
+const juce::ValueTree& SpeakerManager::getSpeakerTree() const{
     return speakerTree;
 }
 

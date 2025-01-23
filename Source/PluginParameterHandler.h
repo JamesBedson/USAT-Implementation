@@ -21,8 +21,13 @@ public:
     void initialiseCoefficients();
     void modifyCoefficient(const juce::String& coefficientName,
                            const float& coefficientValue);
-    juce::ValueTree& getCoefficientTree();
     
+    const juce::ValueTree& getCoefficientTree() const {
+        return coefficientTree;
+    }
+    const juce::ValueTree& getUserParameterTree() const {
+        return userParameters.state;
+    }
     
 private:
     APVTS&          userParameters;

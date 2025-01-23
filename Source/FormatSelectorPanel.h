@@ -34,6 +34,7 @@ private:
     StateManager& stateManager;
     
     juce::ComboBox comboBox;
+    std::unique_ptr<APVTS::ComboBoxAttachment> comboBoxAttachment;
     LayoutSelectorPanel     layoutSelectorPanel;
     AmbisonicsSelectorPanel ambisonicsSelectorPanel;
     

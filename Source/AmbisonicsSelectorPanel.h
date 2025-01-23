@@ -16,6 +16,7 @@
 //==============================================================================
 /*
 */
+
 class AmbisonicsSelectorPanel  : public juce::Component
 {
 public:
@@ -28,6 +29,7 @@ public:
 
 private:
     const UI::FormatType formatType;
+    std::unique_ptr<APVTS::ComboBoxAttachment> comboBoxAttachment;
     
     juce::ComboBox
     orders;

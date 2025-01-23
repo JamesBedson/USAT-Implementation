@@ -42,3 +42,20 @@ StateManager::~StateManager()
 {
     
 }
+
+const juce::ValueTree StateManager::createGlobalValueTree() const
+{
+    auto apvtsTree              = apvts.state;
+    auto speakerLayoutInTree    = transcodingConfigHandler.speakerManagerInput.getSpeakerTree();
+    auto speakerLayoutOutTree   = transcodingConfigHandler.speakerManagerOutput.getSpeakerTree();
+    auto coefficientsTree       = pluginParameterHandler.getCoefficientTree();
+    
+    juce::ValueTree globalTree {ProcessingConstants::TreeTags::globalTreeType};
+    
+    globalTree.addChild(apvtsTree, 0, nullptr);
+    globalTree.addChild(speakerLayoutInTree, 1, nullptr);
+    globalTree.addChild(speakerLayoutOutTree, 2, nullptr);
+    globalTree.addChild(coefficientsTree, 3, nullptr);
+    
+    return globalTree;
+}

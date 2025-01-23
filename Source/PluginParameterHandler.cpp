@@ -11,7 +11,7 @@
 #include "PluginParameterHandler.h"
 
 PluginParameterHandler::PluginParameterHandler(APVTS& apvts)
-: userParameters(apvts)
+: userParameters(apvts), coefficientTree(ProcessingConstants::TreeTags::coefficientsTreeType)
 {
     
 }
@@ -36,7 +36,4 @@ void PluginParameterHandler::modifyCoefficient(const juce::String &coefficientNa
                                 nullptr);
 }
 
-juce::ValueTree& PluginParameterHandler::getCoefficientTree()
-{
-    return coefficientTree;
-}
+

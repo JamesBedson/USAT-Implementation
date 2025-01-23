@@ -15,39 +15,18 @@
 ParameterPanel::ParameterPanel(StateManager& s)
 : stateManager(s)
 {
-    // Attach sliders to parameters
-        energyAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "energy", energy);
-
-        radialIntensityAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "radialIntensity", radialIntensity);
-
-        pressureAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "pressure", pressure);
-
-        radialVelocityAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "radialVelocity", radialVelocity);
-
-        transverseVelocityAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "transverseVelocity", transverseVelocity);
-
-        inPhaseQuadraticAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "inPhaseQuadratic", inPhaseQuadratic);
-
-        symmetryQuadraticAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "symmetryQuadratic", symmetryQuadratic);
-
-        inPhaseLinearAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "inPhaseLinear", inPhaseLinear);
-
-        symmetryLinearAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "symmetryLinear", symmetryLinear);
-
-        totalGainsLinearAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "totalGainsLinear", totalGainsLinear);
-
-        totalGainsQuadraticAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            s.apvts, "totalGainsQuadratic", totalGainsQuadratic);
+    
+    auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+    
+    energy.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::energy));
+    radialIntensity.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::radialIntensity));
+    pressure.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::pressure));
+    transverseVelocity.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::transverseVelocity));
+    inPhaseQuadratic.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::inPhaseQuadratic));
+    inPhaseLinear.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::inPhaseLinear));
+    symmetryLinear.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::symmetryLinear));
+    totalGainsLinear.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::totalGainsLinear));
+    totalGainsQuadratic.setValue(coefficientTree.getProperty(ProcessingConstants::Coeffs::totalGainsQuadratic));
     
     addAndMakeVisible(energy);
     addAndMakeVisible(radialIntensity);
@@ -59,6 +38,86 @@ ParameterPanel::ParameterPanel(StateManager& s)
     addAndMakeVisible(symmetryLinear);
     addAndMakeVisible(totalGainsLinear);
     addAndMakeVisible(totalGainsQuadratic);
+    
+    energy.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::energy,
+                                    energy.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    radialIntensity.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::radialIntensity,
+                                    radialIntensity.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    pressure.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::pressure,
+                                    pressure.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    transverseVelocity.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::transverseVelocity,
+                                    transverseVelocity.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    radialVelocity.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::radialVelocity,
+                                    radialVelocity.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    inPhaseQuadratic.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::inPhaseQuadratic,
+                                    inPhaseQuadratic.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    inPhaseLinear.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::inPhaseLinear,
+                                    inPhaseLinear.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    symmetryLinear.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::symmetryLinear,
+                                    symmetryLinear.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    totalGainsLinear.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::totalGainsLinear,
+                                    totalGainsLinear.getValue(),
+                                    nullptr
+                                    );
+    };
+
+    totalGainsQuadratic.onValueChange = [&]() {
+        auto coefficientTree = s.pluginParameterHandler.getCoefficientTree();
+        coefficientTree.setProperty(ProcessingConstants::Coeffs::totalGainsQuadratic,
+                                    totalGainsQuadratic.getValue(),
+                                    nullptr
+                                    );
+    };
     
     addAndMakeVisible(energyLabel);
     addAndMakeVisible(radialIntensityLabel);
@@ -94,7 +153,6 @@ ParameterPanel::ParameterPanel(StateManager& s)
     totalGainsQuadratic.setTextBoxStyle(juce::Slider::TextBoxRight, false, 100, 20);
     totalGainsLinear.setTextBoxStyle(juce::Slider::TextBoxRight, false, 100, 20);
 
-
     energyLabel.attachToComponent(&energy, true);
     radialIntensityLabel.attachToComponent(&radialIntensity, true);
     pressureLabel.attachToComponent(&pressure, true);
@@ -126,8 +184,6 @@ ParameterPanel::ParameterPanel(StateManager& s)
     symmetryLinear.setTextBoxIsEditable(true);
     totalGainsLinear.setTextBoxIsEditable(true);
     totalGainsQuadratic.setTextBoxIsEditable(true);
-    
-    
     
 }
 

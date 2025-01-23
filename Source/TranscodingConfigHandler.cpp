@@ -30,11 +30,6 @@ void TranscodingConfigHandler::initialiseConfigTree()
     configTree.setProperty(ProcessingConstants::EncodingOptions::outputType,
                            ProcessingConstants::EncodingOptions::surround,
                            nullptr);
-    
-    // Ambisonics Order
-    configTree.setProperty(ProcessingConstants::EncodingOptions::Ambisonics::order,
-                           ProcessingConstants::EncodingOptions::Ambisonics::orderChoices[0],
-                           nullptr);
 }
 
 void TranscodingConfigHandler::modifyConfigTree(juce::String encodingOption,

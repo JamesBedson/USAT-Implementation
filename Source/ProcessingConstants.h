@@ -28,6 +28,14 @@ namespace ProcessingConstants {
     const juce::String  outputTreeType  = "Output_Loudspeaker_Layout";
 
     }
+    namespace TreeTags {
+    
+    const juce::String inputTreeType        = "Input_Loudspeaker_Layout";
+    const juce::String outputTreeType       = "Output_Loudspeaker_Layout";
+    const juce::String globalTreeType       = "USAT_State_Parameters";
+    const juce::String coefficientsTreeType = "Coefficients";
+    
+    }
 
     namespace PluginParameterNames {
         
@@ -50,8 +58,9 @@ namespace ProcessingConstants {
     };
     
         namespace Ambisonics {
-            const juce::String order = "ambisonicsOrder";
-            const juce::StringArray orderChoices {
+        const juce::String orderIn  = "ambisonicsOrderIn";
+        const juce::String orderOut = "ambisonicsOrderOut";
+        const juce::StringArray orderChoices {
                 "1", "2", "3", "4", "5", "6", "7"
             };
         }
@@ -217,7 +226,8 @@ namespace ProcessingConstants {
             { EncodingOptions::outputType,                  "output_type"},
             { EncodingOptions::ambisonics,                  "ambisonics"},
             { EncodingOptions::surround,                    "surround"},
-            { EncodingOptions::Ambisonics::order,           "ambisonics_order"},
+            { EncodingOptions::Ambisonics::orderIn,         "ambisonics_order_in"},
+            { EncodingOptions::Ambisonics::orderOut,        "ambisonics_order_out"},
             { EncodingOptions::Surround::surroundLayout,    "surroundLayout"}
         };
         

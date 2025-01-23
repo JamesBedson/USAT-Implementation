@@ -56,18 +56,6 @@ private:
     totalGainsLinearLabel,
     totalGainsQuadraticLabel;
     
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> energyAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> radialIntensityAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> pressureAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> radialVelocityAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> transverseVelocityAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> inPhaseQuadraticAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> symmetryQuadraticAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> inPhaseLinearAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> symmetryLinearAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> totalGainsLinearAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> totalGainsQuadraticAttachment;
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterPanel)
 };
 

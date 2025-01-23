@@ -39,6 +39,8 @@ public:
         }
     }
     
+    const juce::ValueTree createGlobalValueTree() const;
+    
     APVTS&                      apvts;
     PluginParameterHandler      pluginParameterHandler;
     TranscodingConfigHandler    transcodingConfigHandler;

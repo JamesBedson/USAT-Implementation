@@ -16,6 +16,18 @@ AmbisonicsSelectorPanel::AmbisonicsSelectorPanel(StateManager& s,
                                                  const UI::FormatType formatType)
 : formatType(formatType)
 {
+    
+    formatType == UI::FormatType::input
+    ?
+    comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
+                                                                     ProcessingConstants::EncodingOptions::Ambisonics::orderIn,
+                                                                     orders)
+    :
+    comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
+                                                                     ProcessingConstants::EncodingOptions::Ambisonics::orderOut,
+                                                                     orders
+                                                                     );
+    
     addAndMakeVisible(orders);
     orders.setText("Ambisonics Order");
     orders.addItemList(ProcessingConstants::EncodingOptions::Ambisonics::orderChoices,

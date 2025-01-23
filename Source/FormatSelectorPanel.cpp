@@ -22,6 +22,17 @@ ambisonicsSelectorPanel(s, formatType)
     addChildComponent(layoutSelectorPanel);
     addChildComponent(ambisonicsSelectorPanel);
     
+    if (formatType == UI::FormatType::input) {
+        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
+                                                                         ProcessingConstants::EncodingOptions::inputType,
+                                                                         comboBox);
+    }
+    else {
+        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
+                                                                         ProcessingConstants::EncodingOptions::outputType,
+                                                                         comboBox);
+    }
+    
     comboBox.addListener(this);
     comboBox.addItem("Speaker Layout", 1);
     comboBox.addItem("Ambisonics", 2);

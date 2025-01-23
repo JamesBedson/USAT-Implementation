@@ -50,9 +50,8 @@ public:
     SpeakerManager(const juce::String treeType);
     ~SpeakerManager();
     
-    
     void generateSpeakerTree();
-    juce::ValueTree& getSpeakerTree();
+    const juce::ValueTree& getSpeakerTree() const;
     
     const std::vector<int> getVectorCurrentIDs() const;
     const Speaker* getSpeaker(int speakerID) const;
