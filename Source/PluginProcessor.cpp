@@ -100,6 +100,7 @@ void USATAudioProcessor::changeProgramName (int index, const juce::String& newNa
 void USATAudioProcessor::decode()
 {
     // Formats and Layouts
+    /*
     TranscodingConfigHandler&   configHandler       = stateManager.transcodingConfigHandler;
     
     // User Parameters and Coefficients
@@ -110,8 +111,10 @@ void USATAudioProcessor::decode()
                                                                   configHandler.speakerManagerOutput.getSpeakerTree());
     
     auto parameterArg   = ParameterParser::extractCoefficients(parameterHandler.getCoefficientTree());
+    */
     
-    decoder.computeMatrix(parameterArg);
+    auto globalValueTree = stateManager.createGlobalValueTree();
+    decoder.computeMatrix(globalValueTree.toXmlString());
 }
 
 

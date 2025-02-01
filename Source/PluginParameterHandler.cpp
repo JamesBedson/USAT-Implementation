@@ -13,7 +13,7 @@
 PluginParameterHandler::PluginParameterHandler(APVTS& apvts)
 : userParameters(apvts), coefficientTree(ProcessingConstants::TreeTags::coefficientsTreeType)
 {
-    
+    initialiseCoefficients();
 }
 
 void PluginParameterHandler::initialiseCoefficients()

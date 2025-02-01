@@ -35,7 +35,7 @@ public:
     const bool channelAndMatrixDimensionsMatch();
     
     // Matrix Processing
-    void computeMatrix(const std::string& parameters) const;
+    void computeMatrix(const juce::String parsedValueTree) const;
     const bool decodingMatrixReady();
     void process(juce::AudioBuffer<float>& buffer);
     

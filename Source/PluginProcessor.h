@@ -60,13 +60,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     StateManager stateManager;
+    void decode();
     
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (USATAudioProcessor)
     USAT                decoder;
     APVTS               userParameters;
-    
-    void decode();
     
 };

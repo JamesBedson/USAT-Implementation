@@ -17,22 +17,24 @@ AmbisonicsSelectorPanel::AmbisonicsSelectorPanel(StateManager& s,
 : formatType(formatType)
 {
     
-    formatType == UI::FormatType::input
-    ?
-    comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
-                                                                     ProcessingConstants::EncodingOptions::Ambisonics::orderIn,
-                                                                     orders)
-    :
-    comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
-                                                                     ProcessingConstants::EncodingOptions::Ambisonics::orderOut,
-                                                                     orders
-                                                                     );
+    orders.addItemList(ProcessingConstants::EncodingOptions::Ambisonics::orderChoices, 1);
+    
+    if (formatType == UI::FormatType::input) {
+        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>
+        (s.apvts,
+         ProcessingConstants::EncodingOptions::Ambisonics::orderIn,
+         orders);
+    }
+    
+    else {
+        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>
+        (s.apvts,
+         ProcessingConstants::EncodingOptions::Ambisonics::orderOut,
+         orders);
+    }
     
     addAndMakeVisible(orders);
-    orders.setText("Ambisonics Order");
-    orders.addItemList(ProcessingConstants::EncodingOptions::Ambisonics::orderChoices,
-                       1
-                       );
+    //orders.setText("Ambisonics Order");
 }
 
 AmbisonicsSelectorPanel::~AmbisonicsSelectorPanel()

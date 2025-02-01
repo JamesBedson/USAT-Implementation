@@ -29,19 +29,20 @@ stateManager(s)
     layoutName.setEditable(true);
     layoutName.setJustificationType(juce::Justification::centred);
     
-    formatType == UI::FormatType::input
-    ?
-    layoutName.setText(ProcessingConstants::SpeakerProperties::inputTreeType,
-                       juce::NotificationType::dontSendNotification)
-    :
-    layoutName.setText(ProcessingConstants::SpeakerProperties::outputTreeType,
-                       juce::NotificationType::dontSendNotification);
+    if (formatType == UI::FormatType::input)
+        layoutName.setText(ProcessingConstants::SpeakerProperties::inputTreeType,
+                           juce::NotificationType::dontSendNotification);
+    
+    else if (formatType == UI::FormatType::output)
+        layoutName.setText(ProcessingConstants::SpeakerProperties::outputTreeType,
+                           juce::NotificationType::dontSendNotification);
+    
+    else
+        jassertfalse;
     
     editLayout.addListener(this);
     exportLayout.addListener(this);
     loadLayout.addListener(this);
-    
-
 }
 
 LayoutSelectorPanel::~LayoutSelectorPanel()
@@ -201,12 +202,13 @@ void LayoutSelectorPanel::showImportDialog()
     fileChooser = std::make_unique<juce::FileChooser>(
         "Choose a name",
         StateManager::speakerLayoutDirectory,
-        "*.xml",
+        "*.xml", // <-- Corrected filter
         true,
         this
-        );
+    );
+    
 
-    constexpr auto fileChooserFlags = juce::FileBrowserComponent::openMode;
+    constexpr auto fileChooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 
     fileChooser->launchAsync(
         fileChooserFlags,

@@ -17,6 +17,18 @@ DecoderSettingsPanel::DecoderSettingsPanel(USATAudioProcessor& p)
 {
     addAndMakeVisible(decode);
     decode.setButtonText("decode");
+    
+    decode.onClick = [this]()
+    {
+        const auto valueTree    = audioProcessor.stateManager.createGlobalValueTree();
+        auto file               = audioProcessor.stateManager.baseDirectory.getChildFile("GlobalValueTree.xml");
+        std::unique_ptr<juce::XmlElement> xml(valueTree.createXml());
+        
+        if (xml != nullptr) {
+            xml->writeTo(file);
+        }
+        audioProcessor.decode();
+    };
 }
 
 DecoderSettingsPanel::~DecoderSettingsPanel()
@@ -25,13 +37,7 @@ DecoderSettingsPanel::~DecoderSettingsPanel()
 
 void DecoderSettingsPanel::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
+    
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
     g.setColour (juce::Colours::grey);

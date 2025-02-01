@@ -87,27 +87,20 @@ const bool USAT::channelAndMatrixDimensionsMatch()
 
 // GAINS ========================================================================
 
-void USAT::computeMatrix(const std::string& parameters) const
+void USAT::computeMatrix(const juce::String parsedValueTree) const
 {
     // Call python script with parameters
     
-    auto executablePath     = StateManager::pythonExecutableDirectory.getFullPathName();
-    auto quotedParameters   = "\"" + parameters + "\"";
-    auto command            = executablePath + " " + quotedParameters;
+    juce::String command = StateManager::pythonExecutableDirectory.getFullPathName();
+    command << " " << parsedValueTree;
     
     juce::ChildProcess pythonExecutableUSAT;
     bool success = pythonExecutableUSAT.start(command);
     
     if (success) {
-        juce::String output = pythonExecutableUSAT.readAllProcessOutput();
+        auto output = pythonExecutableUSAT.readAllProcessOutput();
         DBG(output);
-        pythonExecutableUSAT.kill();
     }
-    
-    else {
-        DBG("Error launching executable...");
-    }
-    
 }
 
 void USAT::reshapeMatrix()

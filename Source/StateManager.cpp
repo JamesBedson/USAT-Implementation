@@ -43,19 +43,94 @@ StateManager::~StateManager()
     
 }
 
+const juce::ValueTree StateManager::createValueTreeFromAPVTS() const
+{
+    juce::ValueTree encodingTree {ProcessingConstants::TreeTags::encodingTreeType};
+    
+    int inputType          = apvts.getParameterAsValue(ProcessingConstants::EncodingOptions::inputType).getValue();
+    int outputType         = apvts.getParameterAsValue(ProcessingConstants::EncodingOptions::outputType).getValue();
+    int ambisonicsOrderIn  = apvts.getParameterAsValue(ProcessingConstants::EncodingOptions::Ambisonics::orderIn).getValue();
+    int ambisonicsOrderOut = apvts.getParameterAsValue(ProcessingConstants::EncodingOptions::Ambisonics::orderOut).getValue();
+    
+    
+    // INPUT ================================================================================================
+    if (inputType == 0) { // SpeakerLayout
+        encodingTree.setProperty(ProcessingConstants::EncodingOptions::inputType,
+                                   ProcessingConstants::EncodingOptions::speakerLayout, nullptr);
+    }
+    
+    else if (inputType == 1) { // Ambisonics
+        encodingTree.setProperty(ProcessingConstants::EncodingOptions::inputType,
+                                 ProcessingConstants::EncodingOptions::ambisonics, nullptr);
+    }
+    
+    else
+        jassertfalse;
+    
+    // OUTPUT ===============================================================================================
+    if (outputType == 0) {
+        encodingTree.setProperty(ProcessingConstants::EncodingOptions::outputType,
+                                 ProcessingConstants::EncodingOptions::speakerLayout, nullptr);
+    }
+    
+    else if (outputType == 1) {
+        encodingTree.setProperty(ProcessingConstants::EncodingOptions::outputType,
+                                 ProcessingConstants::EncodingOptions::ambisonics, nullptr);
+    }
+    
+    else
+        jassertfalse;
+    
+    // AMBISONICS ORDER
+    encodingTree.setProperty(ProcessingConstants::EncodingOptions::Ambisonics::orderIn,
+                             ambisonicsOrderIn + 1, nullptr);
+    encodingTree.setProperty(ProcessingConstants::EncodingOptions::Ambisonics::orderOut,
+                             ambisonicsOrderOut + 1, nullptr);
+    
+    return encodingTree;
+}
+
+
 const juce::ValueTree StateManager::createGlobalValueTree() const
 {
-    auto apvtsTree              = apvts.state;
-    auto speakerLayoutInTree    = transcodingConfigHandler.speakerManagerInput.getSpeakerTree();
-    auto speakerLayoutOutTree   = transcodingConfigHandler.speakerManagerOutput.getSpeakerTree();
-    auto coefficientsTree       = pluginParameterHandler.getCoefficientTree();
+    // Create Separate ValueTree for APVTS parameters
+    
+    auto apvtsTree              = createValueTreeFromAPVTS();
+    auto speakerLayoutInTree    = transcodingConfigHandler.speakerManagerInput.getSpeakerTree().createCopy();
+    auto speakerLayoutOutTree   = transcodingConfigHandler.speakerManagerOutput.getSpeakerTree().createCopy();
+    auto coefficientsTree       = pluginParameterHandler.getCoefficientTree().createCopy();
     
     juce::ValueTree globalTree {ProcessingConstants::TreeTags::globalTreeType};
     
-    globalTree.addChild(apvtsTree, 0, nullptr);
-    globalTree.addChild(speakerLayoutInTree, 1, nullptr);
-    globalTree.addChild(speakerLayoutOutTree, 2, nullptr);
-    globalTree.addChild(coefficientsTree, 3, nullptr);
+    // TODO: figure out how to make global Tree
+    
+    globalTree.addChild(apvtsTree, -1, nullptr);
+    globalTree.addChild(speakerLayoutInTree, -1, nullptr);
+    globalTree.addChild(speakerLayoutOutTree, -1, nullptr);
+    globalTree.addChild(coefficientsTree, -1, nullptr);
     
     return globalTree;
+}
+
+void StateManager::debugGlobalValueTree() const {
+    
+    auto tree = createGlobalValueTree();
+    
+    for (int i = 0; i < tree.getNumChildren(); i++) {
+        auto child = tree.getChild(i);
+        
+        if (child.isValid()) {
+            
+            DBG("Type: " << child.getType().toString());
+            DBG("Number of Properties: " << child.getNumProperties());
+            
+            for (int j = 0; j < child.getNumProperties(); j++) {
+                
+                auto currentPropertyName    = child.getPropertyName(j);
+                auto currentPropertyVal     = child.getProperty(currentPropertyName);
+                
+                DBG(currentPropertyName << ": " << currentPropertyVal.toString());
+            }
+        }
+    }
 }

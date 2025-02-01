@@ -19,14 +19,14 @@ const std::string ParameterParser::extractEncodingOptions(const juce::ValueTree&
     // Input
     auto inputOption    = configTree.getProperty(ProcessingConstants::EncodingOptions::inputType);
     formatUserParameterOption(configData, ProcessingConstants::EncodingOptions::inputType, inputOption);
-    if (inputOption == ProcessingConstants::EncodingOptions::surround) {
+    if (inputOption == ProcessingConstants::EncodingOptions::speakerLayout) {
         parseSpeakerLayout(configData, inputSpeakerTree);
     }
     
     // Output
     auto outputOption   = configTree.getProperty(ProcessingConstants::EncodingOptions::outputType);
     formatUserParameterOption(configData, ProcessingConstants::EncodingOptions::outputType, outputOption);
-    if (outputOption == ProcessingConstants::EncodingOptions::surround) {
+    if (outputOption == ProcessingConstants::EncodingOptions::speakerLayout) {
         parseSpeakerLayout(configData, outputSpeakerTree);
     }
     

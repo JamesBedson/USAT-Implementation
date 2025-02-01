@@ -32,6 +32,7 @@ namespace ProcessingConstants {
     
     const juce::String inputTreeType        = "Input_Loudspeaker_Layout";
     const juce::String outputTreeType       = "Output_Loudspeaker_Layout";
+    const juce::String encodingTreeType     = "Encoding_Settings";
     const juce::String globalTreeType       = "USAT_State_Parameters";
     const juce::String coefficientsTreeType = "Coefficients";
     
@@ -48,13 +49,13 @@ namespace ProcessingConstants {
     const juce::String inputType    = "inputType";
     const juce::String outputType   = "outputType";
     
-    const juce::String ambisonics   = "ambisonics";
-    const juce::String surround     = "surround";
+    const juce::String ambisonics       = "ambisonics";
+    const juce::String speakerLayout    = "speaker_layout";
     
     // EncodingOptions
     const juce::StringArray encodingChoices {
         ProcessingConstants::EncodingOptions::ambisonics,
-        ProcessingConstants::EncodingOptions::surround
+        ProcessingConstants::EncodingOptions::speakerLayout
     };
     
         namespace Ambisonics {
@@ -225,7 +226,7 @@ namespace ProcessingConstants {
             { EncodingOptions::inputType,                   "input_type"},
             { EncodingOptions::outputType,                  "output_type"},
             { EncodingOptions::ambisonics,                  "ambisonics"},
-            { EncodingOptions::surround,                    "surround"},
+            { EncodingOptions::speakerLayout,                    "surround"},
             { EncodingOptions::Ambisonics::orderIn,         "ambisonics_order_in"},
             { EncodingOptions::Ambisonics::orderOut,        "ambisonics_order_out"},
             { EncodingOptions::Surround::surroundLayout,    "surroundLayout"}

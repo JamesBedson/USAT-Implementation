@@ -28,7 +28,7 @@ void TranscodingConfigHandler::initialiseConfigTree()
                            nullptr);
     // Output
     configTree.setProperty(ProcessingConstants::EncodingOptions::outputType,
-                           ProcessingConstants::EncodingOptions::surround,
+                           ProcessingConstants::EncodingOptions::speakerLayout,
                            nullptr);
 }
 

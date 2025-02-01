@@ -38,7 +38,7 @@ bool Speaker::isValidCoordinate(const SphericalCoordinates &coordinate, const fl
     
     switch (coordinate) {
         case Azimuth:
-            return value >= 0 && value <= 360;
+            return value >= -360 && value <= 360;
             
         case Elevation:
             return value >= 0 && value <= 90;

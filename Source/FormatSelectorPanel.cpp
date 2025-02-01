@@ -22,20 +22,23 @@ ambisonicsSelectorPanel(s, formatType)
     addChildComponent(layoutSelectorPanel);
     addChildComponent(ambisonicsSelectorPanel);
     
-    if (formatType == UI::FormatType::input) {
-        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
-                                                                         ProcessingConstants::EncodingOptions::inputType,
-                                                                         comboBox);
-    }
-    else {
-        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>(s.apvts,
-                                                                         ProcessingConstants::EncodingOptions::outputType,
-                                                                         comboBox);
-    }
-    
     comboBox.addListener(this);
     comboBox.addItem("Speaker Layout", 1);
     comboBox.addItem("Ambisonics", 2);
+    
+    if (formatType == UI::FormatType::input) {
+        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>
+        (s.apvts,
+         ProcessingConstants::EncodingOptions::inputType,
+         comboBox);
+    }
+    
+    else {
+        comboBoxAttachment = std::make_unique<APVTS::ComboBoxAttachment>
+        (s.apvts,
+         ProcessingConstants::EncodingOptions::outputType,
+         comboBox);
+    }
 }
 
 FormatSelectorPanel::~FormatSelectorPanel()
@@ -44,13 +47,6 @@ FormatSelectorPanel::~FormatSelectorPanel()
 
 void FormatSelectorPanel::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
     g.setColour (juce::Colours::grey);
@@ -112,6 +108,7 @@ void FormatSelectorPanel::comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged
                 ambisonicsSelectorPanel.setVisible(true);
                 break;
         }
-        
     }
+    
+    stateManager.debugGlobalValueTree();
 }

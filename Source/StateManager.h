@@ -40,6 +40,8 @@ public:
     }
     
     const juce::ValueTree createGlobalValueTree() const;
+    const juce::ValueTree createValueTreeFromAPVTS() const;
+    void debugGlobalValueTree() const;
     
     APVTS&                      apvts;
     PluginParameterHandler      pluginParameterHandler;
